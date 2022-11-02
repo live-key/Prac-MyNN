@@ -17,14 +17,14 @@ ws   = [[ 0.20,  0.80, -0.50,  1.00],
 
 bs   = [2.0, 3.0, 0.5]
 
-ins = np.dot(ins, np.transpose(ws)) + bs
+out1 = np.dot(ins, np.transpose(ws)) + bs
 
-ws   = [[ 0.10,  0.14, -0.50],
+ws   = [[ 0.10, -0.14,  0.50],
         [-0.50,  0.12, -0.33], 
         [-0.44,  0.73, -0.13]]
 
 bs   = [-1.0, 2.0, -0.5]
 
-output = np.dot(ins, np.transpose(ws)) + bs
+out2 = np.dot(out1, np.transpose(ws)) + bs
 
-print(output)
+print(out2)
