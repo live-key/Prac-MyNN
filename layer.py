@@ -1,7 +1,4 @@
 import numpy as np
-import nnfs
-
-nnfs.init()
 
 class Layer:
     def __init__(self, n_ins, n_neurons):

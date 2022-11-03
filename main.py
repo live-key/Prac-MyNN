@@ -2,9 +2,11 @@ import numpy as np
 
 from layer import Layer
 from activation import Activation
+from loss import Loss, Loss_CCE
 
 import nnfs
 from nnfs.datasets import spiral_data
+
 nnfs.init()
 
 # Input layer
@@ -32,3 +34,8 @@ activation2.activate(layer2.res)
 
 # Output layer
 print(activation2.res[:5])
+
+loss_func = Loss_CCE()
+loss = loss_func.calc(activation2.res, y)
+
+print("Loss:", loss)
