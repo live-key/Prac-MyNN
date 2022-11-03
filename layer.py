@@ -1,6 +1,7 @@
 import numpy as np
+import nnfs
 
-np.random.seed(0)
+nnfs.init()
 
 class Layer:
     def __init__(self, n_ins, n_neurons):
