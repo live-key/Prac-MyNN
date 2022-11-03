@@ -1,29 +1,22 @@
 import numpy as np
 from layer import Layer
-from activation import Activation as Act
+from activation import Activation
+import nnfs
+from nnfs.datasets import spiral_data
+
+nnfs.init()
+
+X, y = spiral_data(100, 3)
 
 '''
 Toy Neural Network
 Author: Joseph Byrne
 '''
 
-# # Random numbers
-# # Input Layer
-# ins  = [[ 1.0,  2.0,  3.0,  2.5],
-#         [ 2.0,  5.0, -1.0,  2.0],
-#         [-1.5,  2.7,  3.3, -0.8]]
+# Input Layer
 
-# layer1 = Layer(4,5)
-# layer2 = Layer(5,2)
+layer1 = Layer(n_ins=2, n_neurons=5)
+activation1 = Activation(type="relu")
 
-# layer1.forward(ins)
-# layer2.forward(layer1.res)
-
-# print(layer2.res)
-
-Relu = Act("relu")
-ins = [1, 2, 3, 4, 5, -10, -1, 100, -100, 2.0]
-
-Relu.activate(ins)
-
-print(Relu.output)
+layer1.forward(ins=X)
+activation1.activate(ins=layer1.res)

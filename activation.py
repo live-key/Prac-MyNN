@@ -1,9 +1,10 @@
 import numpy as np
 
-np.random.seed(0)
-
 def ReLU(self, ins):
-        self.output = np.maximum(0, ins)
+    self.res = np.maximum(0, ins)
+
+def SoftMax(self, ins):
+    self.res = np.maximum(0, ins)
 
 class Activation:
     def __init__(self, type):
@@ -12,6 +13,7 @@ class Activation:
     def activate(self, ins):
         self.activationDict = {
             "RELU":  ReLU
+            "SOFT":  SoftMax
         }
         self.activationDict[self.type](self, ins)
         
