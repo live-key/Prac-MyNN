@@ -3,13 +3,14 @@ import numpy as np
 from layer import Layer
 from activation import Activation
 from loss import Loss, Loss_CCE
+from network import Network
 
 import nnfs
 from nnfs.datasets import spiral_data
 
 nnfs.init()
 
-# Input layer
+# Input Data
 X, y = spiral_data(samples=100, classes=3)
 
 '''
@@ -17,25 +18,7 @@ Toy Neural Network
 Author: Joseph Byrne
 '''
 
-# Hidden layer 1
-layer1 = Layer(n_ins=2, n_neurons=3)
-activation1 = Activation(type="relu")
+myNN = Network([2, 3, 3], activation="soft")
+myNN.propogate(X, y)
 
-# Hidden layer 2
-layer2 = Layer(n_ins=3, n_neurons=3)
-activation2 = Activation(type="soft")
-
-# Fwd prop
-layer1.forward(ins=X)
-activation1.activate(ins=layer1.res)
-
-layer2.forward(ins=activation1.res)
-activation2.activate(layer2.res)
-
-# Output layer
-print(activation2.res[:5])
-
-loss_func = Loss_CCE()
-loss = loss_func.calc(activation2.res, y)
-
-print("Loss:", loss)
+print()
