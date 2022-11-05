@@ -18,7 +18,5 @@ Toy Neural Network
 Author: Joseph Byrne
 '''
 
-myNN = Network([2, 3, 3], activation="soft")
+myNN = Network([2, 3, 3], verbose=True, activation="soft")
 myNN.propogate(X, y)
-
-print()

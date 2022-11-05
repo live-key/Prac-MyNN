@@ -5,7 +5,7 @@ from activation import Activation
 from loss import Loss, Loss_CCE
 
 class Network:
-    def __init__(self, layer_struct, activation):
+    def __init__(self, layer_struct, activation="relu", optimizer="adam", verbose=False):
         '''
         Inputs:
             array layer_struct =>   array containing the number of 
@@ -24,6 +24,8 @@ class Network:
             Note:   What's created is a network with len(layer_struct)-2    
                     hidden layers and 1 output layer
         '''
+        self.verbose = verbose
+        self.optimizer = optimizer
 
         self.layers = []
         for i in range(len(layer_struct) - 1):
@@ -32,9 +34,11 @@ class Network:
         self.activation = Activation(type=activation)
 
         ## Console Output ##
-        print(f"Layers Created ({len(self.layers)}):")
-        for i in range(len(self.layers)):
-            print(f"Layer {i+1}:\n\tInputs: {self.layers[i].ins}\n\tNeurons: {self.layers[i].neurons}\n\tActivation: {self.activation.type}\n")
+        if self.verbose:
+            print(f"Layers Created ({len(self.layers)})...\n")
+            for i in range(len(self.layers)):
+                layer_string = f"Hidden Layer {(i+1)}" if i+1<len(self.layers) else "Output Layer"
+                print(f"{layer_string}:\n\tInputs: {self.layers[i].ins}\n\tNeurons: {self.layers[i].neurons}\n\tActivation: {self.activation.type}\n")
 
     def propogate(self, input_data, pred_data):
 
@@ -44,7 +48,10 @@ class Network:
 
             input_data = self.activation.res
         
-        print(self.activation.res[:5])
+        ## Console Output ##
+        if self.verbose:
+            print(f"Output Layer Result:\n")
+            print(self.activation.res[:5])
         
         loss_func = Loss_CCE()
         self.loss = loss_func.calc(self.activation.res, pred_data)
