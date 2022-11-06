@@ -4,26 +4,28 @@ from layer import Layer
 from activation import Activation
 from loss import Loss, Loss_CCE
 
+'''
+Inputs:
+    array layer_struct =>   array containing the number of 
+                            neurons in each layer incl. in and out
+
+                            eg. [# of input, hidden, hidden, # of output]
+                                [784, 16, 16, 10]
+
+    string activate =>      array containing the activation method
+                            for each layer
+
+                            eg. relu or soft
+    
+myNN = Network(layer_struct=[784, 16, 16, 10], activation="relu")
+
+Note:   What's created is a network with len(layer_struct)-2    
+        hidden layers and 1 output layer
+'''
+
 class Network:
     def __init__(self, layer_struct, activation="relu", optimizer="adam", verbose=False):
-        '''
-        Inputs:
-            array layer_struct =>   array containing the number of 
-                                    neurons in each layer incl. in and out
-
-                                    eg. [# of input, hidden, hidden, # of output]
-                                        [784, 16, 16, 10]
-
-            string activate =>      array containing the activation method
-                                    for each layer
-
-                                    eg. relu or soft
-            
-            myNN = Network(layer_struct=[784, 16, 16, 10], activation="relu")
-
-            Note:   What's created is a network with len(layer_struct)-2    
-                    hidden layers and 1 output layer
-        '''
+    
         self.verbose = verbose
         self.optimizer = optimizer
 
@@ -43,14 +45,14 @@ class Network:
     def propogate(self, input_data, pred_data):
 
         for i in range(len(self.layers)):
-            self.layers[i].forward(ins=input_data)
-            self.activation.activate(ins=self.layers[i].res)
+            self.layers[i].forward(input_data)
+            self.activation.activate(self.layers[i].res)
 
             input_data = self.activation.res
         
         ## Console Output ##
         if self.verbose:
-            print(f"Output Layer Result:\n")
+            print(f"Output Layer Result Snippet:\n")
             print(self.activation.res[:5])
         
         loss_func = Loss_CCE()
