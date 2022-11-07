@@ -30,14 +30,14 @@ class_targets = np.array([0, 1, 1])
 
 softmax_loss = SMLoss()
 softmax_loss.backward(softmax_outputs, class_targets)
-dvalues1 = softmax_loss.dinputs
+dvalues1 = softmax_loss.del_inputs
 
-activation = Activation_Softmax()
+activation = Activation("soft")
 activation.output = softmax_outputs
-loss = Loss_CategoricalCrossentropy()
+loss = Loss_CCE()
 loss.backward(softmax_outputs, class_targets)
-activation.backward(loss.dinputs)
-dvalues2 = activation.dinputs
+activation.backward(loss.del_inputs)
+dvalues2 = activation.del_inputs
 
 print('Gradients: combined loss and activation:')
 print(dvalues1)

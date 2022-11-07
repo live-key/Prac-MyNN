@@ -28,7 +28,7 @@ def SoftMax_bwd(self, del_vals):
 
         single_out = single_out.reshape(-1,1)
 
-        jacob = np_diagflat(single_out) - \
+        jacob = np.diagflat(single_out) - \
                 np.dot(single_out, np.transpose(single_out))
 
         self.del_inputs[i] = np.dot(jacob, single_del_val)
