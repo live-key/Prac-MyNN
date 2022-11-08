@@ -39,7 +39,7 @@ class Activation:
         self.type = type.upper()
 
     def forward(self, inputs):
-        self.inputs = self.inputs
+        self.inputs = inputs
         self.activation_dict = {
             "RELU":  ReLU_fwd,
             "SOFT":  SoftMax_fwd

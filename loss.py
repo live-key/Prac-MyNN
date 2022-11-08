@@ -1,8 +1,8 @@
 import numpy as np
 
 class Loss:
-    def calculate(self, ins, target):
-        sample_losses = self.losses(ins, target)
+    def calculate(self, inputs, target):
+        sample_losses = self.forward(inputs, target)
         return np.mean(sample_losses)
 
 # Categorical cross entropy loss
@@ -12,7 +12,7 @@ class Loss_CCE(Loss):
         y_pred_clip = np.clip(y_pred, 1e-7, 1-1e-7)
 
         if len(y_true.shape) == 1:
-            correct_conf = y_pred_clip[range(n_samples), y_true]
+            correct_conf = y_pred_clip[range(samples), y_true]
         else:
             correct_conf = np.sum(y_pred_clip*y_true, axis=1)
 

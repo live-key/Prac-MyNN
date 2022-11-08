@@ -8,7 +8,7 @@ class SMLoss:
         self.loss = Loss_CCE()
 
     def forward(self, inputs, y_true):
-        self.activation.activate(inputs)
+        self.activation.forward(inputs)
         self.output = self.activation.output
         return self.loss.calculate(self.output, y_true)
 
