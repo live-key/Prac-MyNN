@@ -5,7 +5,7 @@ from activation import Activation
 from loss import Loss, Loss_CCE
 # from network import Network
 from sm_loss import SMLoss
-from optimizer import Optimizer_SGD
+from optimizer import Optimizer
 
 import nnfs
 from nnfs.datasets import spiral_data
@@ -34,9 +34,9 @@ layer2 = Layer(64, 3)
 loss_activation = SMLoss()
 
 # Instantiate optimizer
-optimizer = Optimizer_SGD()
+optimizer = Optimizer(decay=1e-3)
 
-for epoch in range(100001):
+for epoch in range(10001):
     # Perform a forward pass of our training data through this layer
     layer1.forward(X)
 
@@ -62,7 +62,9 @@ for epoch in range(100001):
     if not epoch % 100:
         print(f'epoch: {epoch}, ' +
         f'acc: {accuracy:.3f}, ' +
-        f'loss: {loss:.3f}')
+        f'loss: {loss:.3f}, ' +
+        f'lr: {optimizer.lr_curr}')
+
 
     # Backward pass
     loss_activation.backward(loss_activation.output, y)
@@ -70,5 +72,7 @@ for epoch in range(100001):
     activation1.backward(layer2.del_inputs)
     layer1.backward(activation1.del_inputs)
 
+    optimizer.pre()
     optimizer.update_params(layer1)
     optimizer.update_params(layer2)
+    optimizer.post()
