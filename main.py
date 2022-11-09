@@ -22,9 +22,11 @@ Author: Joseph Byrne
 
 # Hyper-parameters
 EPOCHS      = 10001
-START_LR    = 1
-LR_DECAY    = 1e-3
-MOMENTUM    = 0.9     
+START_LR    = 0.02 
+LR_DECAY    = 1e-5
+MOMENTUM    = 0.9
+EPSILON     = 1e-7  # For Adaptive Gradient
+RHO         = 0.9   # For RMS Propagation
 
 layer1 = Layer(2, 64)
 activation1 = Activation("relu")
@@ -32,7 +34,7 @@ activation1 = Activation("relu")
 layer2 = Layer(64, 3)
 loss_activation = SMLoss()
 
-optimizer = Optimizer(lr=START_LR, decay=LR_DECAY, momentum=MOMENTUM)
+optimizer = Optimizer(lr=START_LR, decay=LR_DECAY, momentum=MOMENTUM, eps=EPSILON, rho=RHO, type="rmsprop")
 
 for epoch in range(EPOCHS):
     layer1.forward(X)
