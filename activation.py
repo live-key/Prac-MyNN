@@ -8,7 +8,7 @@ def ReLU_fwd(self, inputs):
 
 def ReLU_bwd(self, del_vals):
     self.del_inputs = del_vals.copy()
-    self.del_inputs[self.inputs < 0] = 0
+    self.del_inputs[self.inputs <= 0] = 0
 
 '''
 Soft Maximum Activation Function
@@ -29,7 +29,7 @@ def SoftMax_bwd(self, del_vals):
         single_out = single_out.reshape(-1,1)
 
         jacob = np.diagflat(single_out) - \
-                np.dot(single_out, np.transpose(single_out))
+                np.dot(single_out, single_out.T)
 
         self.del_inputs[i] = np.dot(jacob, single_del_val)
 
