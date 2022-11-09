@@ -32,6 +32,9 @@ layer2 = Layer(3, 3)
 # Create Softmax classifier’s combined loss and activation
 loss_activation = SMLoss()
 
+# Instantiate optimizer
+optimizer = Optimizer_SGD()
+
 # Perform a forward pass of our training data through this layer
 layer1.forward(X)
 
@@ -69,6 +72,9 @@ loss_activation.backward(loss_activation.output, y)
 layer2.backward(loss_activation.del_inputs)
 activation1.backward(layer2.del_inputs)
 layer1.backward(activation1.del_inputs)
+
+optimizer.update_params(layer1)
+optimizer.update_params(layer2)
 
 # Print gradients
 print(layer1.del_weights)
