@@ -5,6 +5,7 @@ from activation import Activation
 from loss import Loss, Loss_CCE
 from network import Network
 from sm_loss import SMLoss
+from optimizer import Optimizer
 
 import nnfs
 from nnfs.datasets import spiral_data
@@ -33,7 +34,7 @@ layer2 = Layer(3, 3)
 loss_activation = SMLoss()
 
 # Instantiate optimizer
-optimizer = Optimizer_SGD()
+optimizer = Optimizer()
 
 # Perform a forward pass of our training data through this layer
 layer1.forward(X)
@@ -61,7 +62,7 @@ print('loss:', loss)
 predictions = np.argmax(loss_activation.output, axis=1)
 
 if len(y.shape) == 2:
- y = np.argmax(y, axis=1)
+    y = np.argmax(y, axis=1)
 accuracy = np.mean(predictions == y)
 
 # Print accuracy
@@ -75,9 +76,3 @@ layer1.backward(activation1.del_inputs)
 
 optimizer.update_params(layer1)
 optimizer.update_params(layer2)
-
-# Print gradients
-print(layer1.del_weights)
-print(layer1.del_biases)
-print(layer2.del_weights)
-print(layer2.del_biases)
