@@ -3,7 +3,7 @@ import numpy as np
 from layer import Layer
 from activation import Activation
 from loss import Loss, Loss_CCE
-# from network import Network
+from network import Network
 from sm_loss import SMLoss
 from optimizer import Optimizer
 
@@ -20,40 +20,27 @@ Toy Neural Network
 Author: Joseph Byrne
 '''
 
-# Create Dense layer with 2 input features and 3 output values
-layer1 = Layer(2, 64)
+# Hyper-parameters
+EPOCHS      = 10001
+START_LR    = 1
+LR_DECAY    = 1e-3
+MOMENTUM    = 0.9     
 
-# Create ReLU activation (to be used with layer):
+layer1 = Layer(2, 64)
 activation1 = Activation("relu")
 
-# Create second layer with 3 input features (as we take output
-# of previous layer here) and 3 output values (output values)
 layer2 = Layer(64, 3)
-
-# Create Softmax classifier’s combined loss and activation
 loss_activation = SMLoss()
 
-# Instantiate optimizer
-optimizer = Optimizer(decay=1e-3, momentum=0.9)
+optimizer = Optimizer(lr=START_LR, decay=LR_DECAY, momentum=MOMENTUM)
 
-for epoch in range(10001):
-    # Perform a forward pass of our training data through this layer
+for epoch in range(EPOCHS):
     layer1.forward(X)
-
-    # Perform a forward pass through activation function
-    # takes the output of first dense layer here
     activation1.forward(layer1.output)
 
-    # Perform a forward pass through second Dense layer
-    # takes outputs of activation function of first layer as inputs
     layer2.forward(activation1.output)
-
-    # Perform a forward pass through the activation/loss function
-    # takes the output of second dense layer here and returns loss
     loss = loss_activation.forward(layer2.output, y)
 
-    # Calculate accuracy from output of activation2 and targets
-    # calculate values along first axis
     predictions = np.argmax(loss_activation.output, axis=1)
     if len(y.shape) == 2:
         y = np.argmax(y, axis=1)
@@ -65,8 +52,6 @@ for epoch in range(10001):
         f'loss: {loss:.3f}, ' +
         f'lr: {optimizer.lr_curr}')
 
-
-    # Backward pass
     loss_activation.backward(loss_activation.output, y)
     layer2.backward(loss_activation.del_inputs)
     activation1.backward(layer2.del_inputs)
